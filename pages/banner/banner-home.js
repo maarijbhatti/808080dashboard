@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import { Autocomplete, Button, Typography } from "@mui/material";
+import { Autocomplete, Button, Checkbox, FormControlLabel, Typography } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
@@ -33,6 +33,7 @@ export default function BannerHome() {
 
   const [file1, setFile1] = useState([]);
   const [file2, setFile2] = useState([]);
+  const [defaultProfileCheck, setDefaultProfileCheck] = useState(true);
 
   const [salesMan, setSalesMan] = useState([]);
   const [bannerTypes, setBannerTypes] = useState([]);
@@ -70,7 +71,7 @@ export default function BannerHome() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('aslkdjmaldkmasd', startDate, moment(new Date(startDate)).format(), moment(new Date(endDate)).format())
+    const data = new FormData(event.currentTarget);
 
     const form = new FormData();
     form.append("salesman_id", salesManId);
@@ -82,6 +83,15 @@ export default function BannerHome() {
     form.append("order_date", moment(new Date(orderDate)).format());
     form.append("from_date", moment(new Date(startDate)).format());
     form.append("to_date", moment(new Date(endDate)).format());
+
+    data.get("whatsapp_numberlink") ? form.append("whatsapp_numberlink", data.get('whatsapp_numberlink')) : undefined
+    data.get("facebooklink") ? form.append("facebooklink", data.get('facebooklink')) : undefined
+    data.get("snapchatlink") ? form.append("snapchatlink", data.get('snapchatlink')) : undefined
+    data.get("twitterlink") ? form.append("twitterlink", data.get('twitterlink')) : undefined
+    data.get("tiktoklink") ? form.append("tiktoklink", data.get('tiktoklink')) : undefined
+    data.get("instagramlink") ? form.append("instagramlink", data.get('instagramlink')) : undefined
+    data.get("phone_numberlink") ? form.append("phone_numberlink", data.get('phone_numberlink')) : undefined
+    data.get("youtubelink") ? form.append("youtubelink", data.get('youtubelink')) : undefined
 
     for (let i = 0; i < file1.length; i++) {
       const image = file1[i];
@@ -522,152 +532,230 @@ export default function BannerHome() {
               <ImageSelect file={file2} setFile={(e) => setFile2(e)} />
             </Grid>
           </Grid>
+          <FormControlLabel control={<Checkbox onChange={(val) => setDefaultProfileCheck(val.target.checked)} value={defaultProfileCheck} defaultChecked />} label="Default profile" />
 
+          {!defaultProfileCheck && <Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Phone Number
+              </Typography>
 
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              Whatsapp
-            </Typography>
+              <TextField
+                fullWidth
+                id="Link"
+                label="Phone Number"
+                name="phone_numberlink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Whatsapp
+              </Typography>
 
-            <TextField
-              fullWidth
-              id="Link"
-              label="Whatsapp link"
-              name="whatsapp_number"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              Facebook
-            </Typography>
+              <TextField
+                fullWidth
+                id="Link"
+                label="Whatsapp Number"
+                name="whatsapp_numberlink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Facebook
+              </Typography>
 
-            <TextField
-              fullWidth
-              id="link"
-              label=" Facebook link"
-              name="facebook"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              Youtube
-            </Typography>
+              <TextField
+                fullWidth
+                id="link"
+                label=" Facebook link"
+                name="facebooklink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
 
-            <TextField
-              fullWidth
-              id="link"
-              label="Youtube link"
-              name="youtube"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              SnapTube
-            </Typography>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Instagram
+              </Typography>
 
-            <TextField
-              fullWidth
-              id="link"
-              label="SnapTube link"
-              name="snapchat"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              Linkedin
-            </Typography>
+              <TextField
+                fullWidth
+                id="link"
+                label=" Instagram link"
+                name="instagramlink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
 
-            <TextField
-              fullWidth
-              id="link"
-              label=" Linkedin link"
-              name="linkedin"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              component="label"
-              sx={{
-                fontWeight: "500",
-                fontSize: "14px",
-                mb: "10px",
-                display: "block",
-              }}
-            >
-              Twitter
-            </Typography>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Tiktok
+              </Typography>
 
-            <TextField
-              fullWidth
-              id="link"
-              label=" Twitter Link"
-              name="twitter"
-              autoComplete="link"
-              InputProps={{
-                style: { borderRadius: 8 },
-              }}
-            />
-          </Grid>
+              <TextField
+                fullWidth
+                id="link"
+                label=" Tiktok link"
+                name="tiktoklink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Youtube
+              </Typography>
+
+              <TextField
+                fullWidth
+                id="link"
+                label="Youtube link"
+                name="youtubelink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                SnapTube
+              </Typography>
+
+              <TextField
+                fullWidth
+                id="link"
+                label="SnapTube link"
+                name="snapchatlink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Linkedin
+              </Typography>
+
+              <TextField
+                fullWidth
+                id="link"
+                label=" Linkedin link"
+                name="linkedin"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography
+                component="label"
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "10px",
+                  display: "block",
+                }}
+              >
+                Twitter
+              </Typography>
+
+              <TextField
+                fullWidth
+                id="link"
+                label=" Twitter Link"
+                name="twitterlink"
+                autoComplete="link"
+                InputProps={{
+                  style: { borderRadius: 8 },
+                }}
+              />
+            </Grid>
+          </Grid>}
+
 
 
           <Grid item xs={12} textAlign='end'>
