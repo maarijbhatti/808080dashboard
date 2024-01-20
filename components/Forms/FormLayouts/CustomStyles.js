@@ -1,30 +1,31 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, FormControl, InputLabel, MenuItem, Typography } from "@mui/material";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import AddIcon from "@mui/icons-material/Add";
+//import AddIcon from "@mui/icons-material/Add";
 import SendIcon from "@mui/icons-material/Send";
 import { useDispatch, useSelector } from "react-redux";
-
-import dynamic from "next/dynamic";
-const RichTextEditor = dynamic(() => import("@mantine/rte"), {
-  ssr: false,
-});
+import Select from "@mui/material/Select";
+//import dynamic from "next/dynamic";
+// const RichTextEditor = dynamic(() => import("@mantine/rte"), {
+//   ssr: false,
+// });
 
 const CustomStyles = () => {
   const dispatch = useDispatch();
 
   const [message, setMessage] = React.useState("");
-
+  const [bannerTypeId, setBannerTypeId] = useState("");
+  const [bannerTypes, setBannerTypes] = useState([]);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const newData = {
       countryId: data.get("firstName"),
       data: {
-        type: data.get("emailAddress"),
+        content_type: data.get("emailAddress"),
         message: message,
       },
     };
@@ -32,10 +33,19 @@ const CustomStyles = () => {
     dispatch({ type: "NOTIFICATIONS", payload: newData });
   };
 
-  // Select Priority
-  const [priority, setPriority] = React.useState("");
-  const handleChange = (event) => {
-    setPriority(event.target.value);
+  useEffect(() => {
+    dispatch({ type: "SALESMAN_BANNERTYPE" });
+  }, []);
+
+  const SalesMan_BannerType = useSelector((state) => state.salesMan_BannerType);
+  useEffect(() => {
+    console.log("SalesMan_BannerType", SalesMan_BannerType.salesMan);
+    setBannerTypes(SalesMan_BannerType.bannerTypes);
+  }, [SalesMan_BannerType]);
+
+  const handleChangeBanner = (event) => {
+    console.log(event.target);
+    setBannerTypeId(event.target.value);
   };
 
   return (
@@ -67,14 +77,14 @@ const CustomStyles = () => {
                   fontSize: "14px",
                   mb: "12px",
                 }}>
-                Country ID
+                Banner/Ad ID
               </Typography>
               <TextField
-                autoComplete='Country Name'
+                //autoComplete='Country Name'
                 name='firstName'
                 fullWidth
                 id='firstName'
-                label='First Name'
+                label='Banner/Ad ID'
                 autoFocus
                 InputProps={{
                   style: { borderRadius: 8 },
@@ -92,7 +102,7 @@ const CustomStyles = () => {
                 }}>
                 Type
               </Typography>
-              <TextField
+              {/* <TextField
                 autoComplete='email-address'
                 name='emailAddress'
                 fullWidth
@@ -102,7 +112,26 @@ const CustomStyles = () => {
                 InputProps={{
                   style: { borderRadius: 8 },
                 }}
-              />
+              /> */}
+              <FormControl fullWidth>
+                <InputLabel id='demo-simple-select-label'>Content Type</InputLabel>
+                <Select
+                  required
+                  labelId='demo-simple-select-label'
+                  id='emailAddress'
+                  value={bannerTypeId}
+                  label='Type'
+                  name='emailAddress'
+                  onChange={(e) => handleChangeBanner(e)}>
+                  {bannerTypes?.map((v, k) => {
+                    return (
+                      <MenuItem key={k} value={v?.name}>
+                        {v?.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </Grid>
 
             <Grid item xs={12} md={12} lg={12}>
@@ -115,18 +144,19 @@ const CustomStyles = () => {
                 }}>
                 Message
               </Typography>
-
-              <RichTextEditor
-                value={message}
-                id='rte'
-                onChange={(e) => setMessage(e)}
-                controls={[
-                  ["bold", "italic", "underline", "link", "image"],
-                  ["unorderedList", "h1", "h2", "h3", "h4"],
-                  ["sup", "sub"],
-                  ["alignLeft", "alignCenter", "alignRight"],
-                ]}
-              />
+              <FormControl fullWidth>
+                <TextField
+                  value={message}
+                  id='rte'
+                  onChange={(e) => setMessage(e.target.value)}
+                // controls={[
+                //   ["bold", "italic", "underline", "link", "image"],
+                //   ["unorderedList", "h1", "h2", "h3", "h4"],
+                //   ["sup", "sub"],
+                //   ["alignLeft", "alignCenter", "alignRight"],
+                // ]}
+                />
+              </FormControl>
             </Grid>
 
             <Grid item xs={12} textAlign='end'>

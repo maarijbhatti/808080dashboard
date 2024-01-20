@@ -186,8 +186,8 @@ function* Notification({ payload }) {
   try {
     const respo = yield call(
       axios.post,
-      `/notifications/admin/${payload.countryId}`,
-      payload.data
+      `/notifications/admin`,
+      { content_id: payload.countryId, ...payload.data }
     );
     const { message } = respo.data;
     if (message == "admin Notification created successfully") {
