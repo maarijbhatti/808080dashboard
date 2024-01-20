@@ -17,6 +17,7 @@ const CustomStyles = () => {
   const dispatch = useDispatch();
 
   const [message, setMessage] = React.useState("");
+  const [title, setTitle] = React.useState("");
   const [bannerTypeId, setBannerTypeId] = useState("");
   const [bannerTypes, setBannerTypes] = useState([]);
   const handleSubmit = (event) => {
@@ -27,6 +28,7 @@ const CustomStyles = () => {
       data: {
         content_type: data.get("emailAddress"),
         message: message,
+        title
       },
     };
 
@@ -133,7 +135,30 @@ const CustomStyles = () => {
                 </Select>
               </FormControl>
             </Grid>
-
+            <Grid item xs={12} md={12} lg={12}>
+              <Typography
+                as='h5'
+                sx={{
+                  fontWeight: "500",
+                  fontSize: "14px",
+                  mb: "12px",
+                }}>
+                Title
+              </Typography>
+              <FormControl fullWidth>
+                <TextField
+                  value={title}
+                  id='rte'
+                  onChange={(e) => setTitle(e.target.value)}
+                // controls={[
+                //   ["bold", "italic", "underline", "link", "image"],
+                //   ["unorderedList", "h1", "h2", "h3", "h4"],
+                //   ["sup", "sub"],
+                //   ["alignLeft", "alignCenter", "alignRight"],
+                // ]}
+                />
+              </FormControl>
+            </Grid>
             <Grid item xs={12} md={12} lg={12}>
               <Typography
                 as='h5'
