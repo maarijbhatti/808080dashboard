@@ -190,6 +190,7 @@ function* Notification({ payload }) {
       { content_id: payload.countryId, ...payload.data }
     );
     const { message } = respo.data;
+    alert(message)
     if (message == "admin Notification created successfully") {
       yield put(action.Verify(true));
     } else {
