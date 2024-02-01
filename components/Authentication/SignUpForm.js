@@ -53,7 +53,7 @@ const SignUpForm = () => {
   useEffect(() => {
     console.log('a;asdsdasdasdasdasdassd', customer_data_by_admin, userSocialData)
     if (customer_data_by_admin && customer_data_by_admin != {} && userSocialData && userSocialData != {})
-      customer_data_by_admin && customer_data_by_admin != {} && dispatch({ type: "ADD_USER_SOCILA_LOGINS", payload: { customer_id: customer_data_by_admin.id, ...userSocialData } });
+      customer_data_by_admin && customer_data_by_admin != {} && customer_data_by_admin.id && dispatch({ type: "ADD_USER_SOCILA_LOGINS", payload: { customer_id: customer_data_by_admin.id, ...userSocialData } });
   }, [customer_data_by_admin, userSocialData])
 
   const handleSubmit = (event) => {
