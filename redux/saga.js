@@ -155,6 +155,8 @@ function* Register({ payload }) {
 
     if (message == "User Already Exist")
       yield put(action.Customer_data_by_admin({}));
+    else
+      yield put(action.Customer_data_by_admin(data));
     alert(message)
     yield put(action.Message({ message: message, open: true }));
   } catch (error) { }
