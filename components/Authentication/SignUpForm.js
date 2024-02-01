@@ -66,7 +66,7 @@ const SignUpForm = () => {
       nationality_id: JSON.stringify(Nationality),
       name: data.get("name"),
       birthdate: data.get("birthdate"),
-      username: data.get("phone") + data.get("username"),
+      username: data.get("phone").replace("+", "00") + data.get("username"),
       gender: JSON.parse(data.get("gender")),
       birthdate: data.get("birthdate"),
     };
