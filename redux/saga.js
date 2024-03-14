@@ -143,7 +143,7 @@ function* Login({ payload }) {
 }
 function* Register({ payload }) {
   try {
-
+    yield put(action.Customer_data_by_admin({}));
     const token = localStorage.getItem("Access");
     const respo = yield call(axios.post, "user/register-by-admin", payload, {
       headers: {
